@@ -28,10 +28,20 @@ Router.post('/auth', function(req, res) {
 
 Router.get('/eventos', function(req, res) {
   // Consultamos desde BD si existe el apellido y la habitacion
+    var fecha = new Date()
+
+    var hoy = new Date().toISOString().slice(0, 19).replace('T', ' ')
+    var manana = new Date(fecha.setTime( fecha.getTime() + 1 * 86400000 )).toISOString().slice(0, 19).replace('T', ' ')
+    var pasadomanana = new Date(fecha.setTime( fecha.getTime() + 1 * 86400000 )).toISOString().slice(0, 19).replace('T', ' ')
+
+    var fecha_hoy = hoy.slice(0,10);
+    var fecha_man = manana.slice(0,10)
+    var fecha_pas = pasadomanana.slice(0,10)
+
     var first = eventos.filter(function(eventos){return eventos.fecha.slice(0,10) == '2017-04-17' })
-    var second = eventos.filter(function(eventos){return eventos.fecha.slice(0,11) == '2017-04-18' })
-    var third = eventos.filter(function(eventos){return eventos.fecha.slice(0.9) == '2017-04-19' })
-    console.log(first)
+    var second = eventos.filter(function(eventos){return eventos.fecha.slice(0,10) == '2017-04-18' })
+    var third = eventos.filter(function(eventos){return eventos.fecha.slice(0,10) == '2017-04-19' })
+    // console.log(first)
     res.json({first: first, second: second, third:third})
 
 })
