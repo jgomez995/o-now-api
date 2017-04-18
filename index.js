@@ -27,7 +27,7 @@ Router.post('/auth', function(req, res) {
 })
 
 Router.get('/eventos', function(req, res) {
-  // Consultamos desde BD si existe el apellido y la habitacion
+  // Consultamos desde BD los eventos basados en los proximos dias
     var fecha = new Date()
 
     var hoy = new Date().toISOString().slice(0, 19).replace('T', ' ')
@@ -43,6 +43,16 @@ Router.get('/eventos', function(req, res) {
     var third = eventos.filter(function(eventos){return eventos.fecha.slice(0,10) == '2017-04-19' })
     // console.log(first)
     res.json({first: first, second: second, third:third})
+
+})
+
+Router.get('/eventos/:eventId', function(req, res) {
+  // Consultamos desde BD el id del evento seleccionado
+    
+
+    var evento = eventos.filter(function(eventos){return eventos.id == req.params.eventId })
+    // console.log(first)
+    res.json(evento)
 
 })
 app.use('/', Router)
