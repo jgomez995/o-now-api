@@ -3,7 +3,9 @@ var eventos = require('./eventos')
 
 var jwt = require('jsonwebtoken')
 var express = require('express')
-var bodyParser = require('body-parser') 
+var bodyParser = require('body-parser')
+var firebase = require('./firebase')
+
 var app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -12,9 +14,11 @@ var Router = express.Router()
 
 Router.post('/auth', function(req, res) {
   // Consultamos desde BD si existe el apellido y la habitacion
-
+var userFound = credentials.find(function(user){
+  return user.lastname == req.body.lastname
+})
 // comparamos la consulta con el request
-  if(credentials.lastname == req.body.lastname && credentials.room == req.body.room){
+  if(userFound.lastname == req.body.lastname && userFound.room == req.body.room){
     // recuperamos la llave de encriptacion desde process.env.key
     var key = 'laclavesupersecretadeencriptacion'
     // creamos el token
@@ -55,5 +59,36 @@ Router.get('/eventos/:eventId', function(req, res) {
     res.json(evento)
 
 })
+Router.post('/send/msg', function(req, res) {
+  // Consultamos desde BD el id del evento seleccionado
+  // The topic name can be optionally prefixed with "/topics/".
+  var topic = "canal";
+
+  // See the "Defining the message payload" section below for details
+  // on how to define a message payload.
+  var payload = {
+    notification: {
+      title: "Dany",
+      body: "Saca las Coquitas"
+    }
+  };
+
+  // Send a message to devices subscribed to the provided topic.
+  firebase.messaging().sendToTopic(topic, payload)
+    .then(function(response) {
+      // See the MessagingTopicResponse reference documentation for the
+      // contents of response.
+      res.json({"success": response})
+      console.log("Successfully sent message:", response);
+    })
+    .catch(function(error) {
+      res.json({"error": error})
+      console.log("Error sending message:", error);
+    });
+    
+
+})
 app.use('/', Router)
 app.listen(3000)
+
+

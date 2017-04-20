@@ -798,4 +798,12 @@ module.exports = eventos =[{
   "lugar": "Norrköping",
   "hora_start": "1:05",
   "hora_end": "20:04"
+}, {
+  "id": 100,
+  "fecha": "2017-04-20 08:59:15",
+  "img": "https://robohash.org/minussequidolores.png?size=200x200&set=set1",
+  "nombre": "velit donec diam neque vestibulum eget vulputate ut ultrices vel augue vestibulum ante ipsum primis in faucibus",
+  "lugar": "Norrköping",
+  "hora_start": "1:05",
+  "hora_end": "20:04"
 }]
