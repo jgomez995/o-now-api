@@ -23,7 +23,7 @@ var userFound = credentials.find(function(user){
     var key = 'laclavesupersecretadeencriptacion'
     // creamos el token
     var token = jwt.sign(req.body, key, { expiresIn: '1h' });
-    res.json({token: token})
+    res.json({token: token,details: userFound})
   }else{
     // res.status(404)
     res.status(404).json({error: 'no se encuentra el huesped'})
@@ -59,17 +59,18 @@ Router.get('/eventos/:eventId', function(req, res) {
     res.json(evento)
 
 })
+
 Router.post('/send/msg', function(req, res) {
   // Consultamos desde BD el id del evento seleccionado
   // The topic name can be optionally prefixed with "/topics/".
-  var topic = "canal";
+  var topic = "GOC";
 
   // See the "Defining the message payload" section below for details
   // on how to define a message payload.
   var payload = {
     notification: {
-      title: "Dany",
-      body: "Saca las Coquitas"
+      title: "Grand Oasis Cancun",
+      body: "SHOWS"
     }
   };
 
@@ -88,6 +89,25 @@ Router.post('/send/msg', function(req, res) {
     
 
 })
+
+Router.post('/favorites/add', function(req, res) {
+  
+    var user = req.body.user
+    // Consultamos desde BD el id del evento seleccionado
+    var evento = eventos.filter(function(eventos){return eventos.id == req.body.eventId })
+    console.log(req.body)
+    var db = firebase.database();
+    var ref = db.ref("users/"+user+"/favorites").push();
+    evento[0].key = ref.key
+    ref.set(evento[0],function(error){
+      if(error){
+        res.json({error: error})
+      }else{
+        res.json({success: true})
+      }
+    })
+})
+
 app.use('/', Router)
 app.listen(3000)
 

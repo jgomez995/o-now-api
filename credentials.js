@@ -2,22 +2,19 @@ module.exports =  credentials = [
     {
         lastname: 'web',
         room: '1001',
-        details: {
-            hotel: "GOC"
-        }
+        hotel: "GOC",
+        nombre: "web"
     },
     {
         lastname: 'dev',
         room: '2020',
-        details: {
-            hotel: "GOC"
-        }
+        hotel: "GOC",
+        nombre: "dev"
     },
     {
         lastname: 'maxxo',
         room: '1010',
-        details: {
-            hotel: "GOC"
-        }
+        hotel: "GOC",
+        nombre: "maxxo"
     },
 ]
