@@ -93,11 +93,12 @@ Router.post('/send/msg', function(req, res) {
 Router.post('/favorites/add', function(req, res) {
   
     var user = req.body.user
+    var section = req.body.section
     // Consultamos desde BD el id del evento seleccionado
     var evento = eventos.filter(function(eventos){return eventos.id == req.body.eventId })
     console.log(req.body)
     var db = firebase.database();
-    var ref = db.ref("users/"+user+"/favorites").push();
+    var ref = db.ref("users/"+user+"/favorites/"+section).push();
     evento[0].key = ref.key
     ref.set(evento[0],function(error){
       if(error){
