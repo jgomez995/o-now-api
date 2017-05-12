@@ -98,9 +98,11 @@ Router.post('/favorites/add', function(req, res) {
     var evento = eventos.filter(function(eventos){return eventos.id == req.body.eventId })
     console.log(req.body)
     var db = firebase.database();
-    var ref = db.ref("users/"+user+"/favorites/"+section).push();
-    evento[0].key = ref.key
-    ref.set(evento[0],function(error){
+    var ref = db.ref("users/"+user+"/favorites/").push();
+    // evento[0].key = ref.key
+    // evento[0].section = section
+    favorite = {key:ref.key,data:evento[0],section:section}
+    ref.set(favorite,function(error){
       if(error){
         res.json({error: error})
       }else{
